@@ -6,8 +6,19 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.containsString;
 
 class CreateOrderTest extends ApiTest {
+    @Test
+    void rejectsInvalidIngredientHash() {
+        checkServerError(order(false, List.of("invalid-id")));
+    }
+
+    @Step("Проверить ошибку сервера при неверном хеше")
+    void checkServerError(Response response) {
+        response.then().statusCode(500).body(containsString("Error"));
+    }
+
     @Test
     void rejectsEmptyOrder() {
         checkError(order(false, List.of()), 400, "Ingredient ids must be provided");
