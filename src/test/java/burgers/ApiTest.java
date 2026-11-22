@@ -22,6 +22,7 @@ abstract class ApiTest {
     RequestSpecification api(boolean authorized) {
         var request = given().baseUri(System.getProperty("api.url", "https://stellarburgers.education-services.ru"))
                 .basePath("/api").contentType(ContentType.JSON);
+        HttpLog.configure(request);
         return authorized ? request.header("Authorization", token) : request;
     }
 
