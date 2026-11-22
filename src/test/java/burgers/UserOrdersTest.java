@@ -7,6 +7,11 @@ import org.junit.jupiter.api.Test;
 import static org.hamcrest.Matchers.*;
 
 class UserOrdersTest extends ApiTest {
+    @Test
+    void rejectsAnonymousHistory() {
+        checkError(orders(false), 401, "You should be authorised");
+    }
+
     @Step("Запросить список заказов")
     Response orders(boolean authorized) { return api(authorized).get("/orders"); }
 
