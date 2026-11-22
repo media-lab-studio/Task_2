@@ -33,4 +33,11 @@ class ProfileTest extends ApiTest {
         checkProfile(update(field, true));
         checkSession(login());
     }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"email", "name", "password"})
+    void rejectsAnonymousUpdate(String field) {
+        checkError(update(field, false), 401, "You should be authorised");
+        checkSession(login());
+    }
 }
