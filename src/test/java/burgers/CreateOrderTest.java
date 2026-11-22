@@ -9,6 +9,11 @@ import static org.hamcrest.Matchers.is;
 
 class CreateOrderTest extends ApiTest {
     @Test
+    void rejectsEmptyOrder() {
+        checkError(order(false, List.of()), 400, "Ingredient ids must be provided");
+    }
+
+    @Test
     void createsGuestOrder() { checkOrder(order(false, ingredients())); }
 
     @Test
